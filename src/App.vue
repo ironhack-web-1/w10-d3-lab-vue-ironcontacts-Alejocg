@@ -30,8 +30,10 @@
       <div class="card-body">My IronContacts VIP agenda</div>
     </div>
 
-    <div id=buttons>
-      <button type="button" class="btn btn-primary">Add Random Contact</button>
+    <div id="buttons">
+      <button @click="reducedList.push(reducedList[0])" type="button" class="btn btn-primary">
+        Add Random Contact
+      </button>
       <button type="button" class="btn btn-success">Sort By Name</button>
       <button type="button" class="btn btn-warning">Sort By Popularity</button>
       <button type="button" class="btn btn-danger">Remove a contact</button>
@@ -79,21 +81,36 @@ export default {
   data() {
     return {
       list: contacts,
-      reducedList: "",
+      reducedList: [],
+      newReducedList: [],
+      random: null,
+      randomContact:null,
     };
   },
 
   methods: {
     print() {
       console.log(this.reducedList);
+      console.log(this.random);
+      console.log(this.newReducedList);
     },
     lessContacts() {
-      this.reducedList = this.list.splice(0, 10);
+      this.reducedList = this.list.splice(0, 5);
+    },
+    randomNumber() {
+      this.random = Math.floor(Math.random() * contacts.lenght);
+    },
+    randomContact() {
+      this.randomContact = contacts.splice(Math.floor(Math.random()*this.contacts.length-1),1);
+      reducedList.push(this.newContact[this.random]);
+
     },
   },
   mounted() {
-    this.print();
     this.lessContacts();
+    this.randomNumber();
+    this.randomContact();
+    this.print();
   },
 };
 </script>
@@ -115,7 +132,7 @@ export default {
 
 nav {
   position: fixed;
-  top:0;
+  top: 0;
   width: 100%;
 }
 
@@ -151,16 +168,15 @@ table {
 #imgContainer img {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 5em;
   height: 120px;
   overflow: hidden;
-
   align-items: center;
 }
 
 #buttons {
-
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-content: center;
   justify-content: space-evenly;
@@ -170,6 +186,7 @@ table {
 }
 
 button {
-  display:flex;
+  display: flex;
+  padding: 5px;
 }
 </style>
