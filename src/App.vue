@@ -16,10 +16,15 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="#buttons">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/">Contacts</a>
+            <a class="nav-link" href="/">Refresh</a>
+          </li>
+          <li class="nav-item">
+            <a @click="loadAllContacts()" class="nav-link" href="#buttons"
+              >Load all contacts</a
+            >
           </li>
         </ul>
       </div>
@@ -31,12 +36,26 @@
     </div>
 
     <div id="buttons">
-      <button @click="reducedList.push(reducedList[0])" type="button" class="btn btn-primary">
+      <button
+        @click="addRandomContact(), randomNumber()"
+        type="button"
+        class="btn btn-primary"
+        id="button1"
+      >
         Add Random Contact
       </button>
-      <button type="button" class="btn btn-success">Sort By Name</button>
-      <button type="button" class="btn btn-warning">Sort By Popularity</button>
-      <button type="button" class="btn btn-danger">Remove a contact</button>
+      <button @click="sortByName()" id="button1" type="button" class="btn btn-success">
+        Sort By Name
+      </button>
+      <button @click="sortByPopularity()"  id="button1" type="button" class="btn btn-warning">
+        Sort By Popularity
+      </button>
+      <button @click="removeAContact()"  id="button1" type="button" class="btn btn-danger">
+        Remove a contact
+      </button>
+      <button @click="loadAllContacts()"  id="button1" type="button" class="btn btn-info">
+        Load all contacts
+      </button>
     </div>
 
     <table class="table">
@@ -47,6 +66,8 @@
           <th scope="col">Popularity</th>
           <th scope="col">Won Oscar</th>
           <th scope="col">Won Emy</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Remove Contact</th>
         </tr>
       </thead>
       <tr
@@ -67,6 +88,8 @@
 
         <td v-if="item.wonEmmy">🏆</td>
         <td v-else>⏳</td>
+        <td id="pointer" @click="alertPhone(), randomNumber()">📞</td>
+        <td id="pointer" @click="removeThisContact(item, index)">🗑️</td>
       </tr>
     </table>
   </div>
@@ -82,9 +105,9 @@ export default {
     return {
       list: contacts,
       reducedList: [],
-      newReducedList: [],
-      random: null,
-      randomContact:null,
+      newContact: [],
+      random: 0,
+      randomContact: 0,
     };
   },
 
@@ -92,24 +115,44 @@ export default {
     print() {
       console.log(this.reducedList);
       console.log(this.random);
-      console.log(this.newReducedList);
     },
     lessContacts() {
-      this.reducedList = this.list.splice(0, 5);
+      this.reducedList = this.list.splice(this.random, 5);
     },
     randomNumber() {
-      this.random = Math.floor(Math.random() * contacts.lenght);
+      this.random = Math.floor(Math.random() * this.list.length) + 1;
+      console.log(this.random);
     },
-    randomContact() {
-      this.randomContact = contacts.splice(Math.floor(Math.random()*this.contacts.length-1),1);
-      reducedList.push(this.newContact[this.random]);
+    addRandomContact() {
+      this.reducedList.push(contacts[this.random]);
+    },
 
+    sortByName() {
+      this.reducedList.sort((a, b) => a.name.localeCompare(b.name));
     },
+
+    sortByPopularity() {
+      this.reducedList.sort(function (a, b) {
+        return parseFloat(b.popularity) - parseFloat(a.popularity);
+      });
+    },
+
+    removeAContact() {
+      this.reducedList.pop(contacts[this.random]);
+    },
+    removeThisContact(item, index) {
+      this.reducedList.pop(contacts[item, index]);
+    },
+    loadAllContacts() {
+      this.reducedList = this.list;
+    },
+    alertPhone(){
+      alert('+' + this.random + this.random*132456);
+    }
   },
   mounted() {
-    this.lessContacts();
     this.randomNumber();
-    this.randomContact();
+    this.lessContacts();
     this.print();
   },
 };
@@ -172,6 +215,7 @@ table {
   height: 120px;
   overflow: hidden;
   align-items: center;
+
 }
 
 #buttons {
@@ -189,4 +233,25 @@ button {
   display: flex;
   padding: 5px;
 }
+
+#pointer {
+  cursor: pointer;
+}
+
+td {
+  padding: 5px;
+}
+
+#row {
+  border:0px;
+  padding-left: 0px;
+}
+
+button1 {
+  border: 5px;
+  padding: 5px;
+  color: white;
+}
+
+
 </style>
