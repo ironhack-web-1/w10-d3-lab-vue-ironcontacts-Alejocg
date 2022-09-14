@@ -44,16 +44,36 @@
       >
         Add Random Contact
       </button>
-      <button @click="sortByName()" id="button1" type="button" class="btn btn-success">
+      <button
+        @click="sortByName()"
+        id="button1"
+        type="button"
+        class="btn btn-success"
+      >
         Sort By Name
       </button>
-      <button @click="sortByPopularity()"  id="button1" type="button" class="btn btn-warning">
+      <button
+        @click="sortByPopularity()"
+        id="button1"
+        type="button"
+        class="btn btn-warning"
+      >
         Sort By Popularity
       </button>
-      <button @click="removeAContact()"  id="button1" type="button" class="btn btn-danger">
+      <button
+        @click="removeAContact()"
+        id="button1"
+        type="button"
+        class="btn btn-danger"
+      >
         Remove a contact
       </button>
-      <button @click="loadAllContacts()"  id="button1" type="button" class="btn btn-info">
+      <button
+        @click="loadAllContacts()"
+        id="button1"
+        type="button"
+        class="btn btn-info"
+      >
         Load all contacts
       </button>
     </div>
@@ -86,13 +106,17 @@
         <td v-if="item.wonOscar">🏆</td>
         <td v-else>⏳</td>
 
-        <td v-if="item.wonEmmy">🏆</td>
+        <td v-if="item.wonEmmy">🌟</td>
         <td v-else>⏳</td>
         <td id="pointer" @click="alertPhone(), randomNumber()">📞</td>
-        <td id="pointer" @click="removeThisContact(item, index)">🗑️</td>
+        <td id="pointer" @click="removeThisContact(index)">
+          🗑️
+        </td>
       </tr>
     </table>
   </div>
+  <div class="other-options"><a href="/">↻ Refresh ↻ </a></div>
+  <div class="other-options" id="pointer" @click="newMeContact()">🛑 Do not click 🛑</div>
 </template>
 
 <script>
@@ -108,6 +132,16 @@ export default {
       newContact: [],
       random: 0,
       randomContact: 0,
+      new: [
+  {
+    "name": "🌟 Alejo C 🌟",
+    "pictureUrl": "https://i.pinimg.com/originals/af/55/09/af550933086c43868d53f01b745605dd.jpg",
+    "popularity": 9000,
+    "id": "11731992-0604-4bee-80d5-67ad845d0a38",
+    "wonOscar": true,
+    "wonEmmy": true
+  },]
+
     };
   },
 
@@ -140,14 +174,17 @@ export default {
     removeAContact() {
       this.reducedList.pop(contacts[this.random]);
     },
-    removeThisContact(item, index) {
-      this.reducedList.pop(contacts[item, index]);
+    removeThisContact(index) {
+      this.reducedList.splice(index, 1)
     },
     loadAllContacts() {
       this.reducedList = this.list;
     },
-    alertPhone(){
-      alert('+' + this.random + this.random*132456);
+    alertPhone() {
+      alert("+" + this.random + this.random * 132456);
+    },
+    newMeContact(){
+      this.reducedList.push(this.new[0]);
     }
   },
   mounted() {
@@ -215,7 +252,6 @@ table {
   height: 120px;
   overflow: hidden;
   align-items: center;
-
 }
 
 #buttons {
@@ -243,15 +279,34 @@ td {
 }
 
 #row {
-  border:0px;
+  border: 0px;
   padding-left: 0px;
 }
 
-button1 {
+#button1 {
   border: 5px;
   padding: 5px;
   color: white;
 }
 
+.other-options {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 30px;
+  border: 20px;
+}
+
+.other-options a{
+  color: black;
+}
+
+a:link {
+  color: black;
+  text-decoration: none;
+} /* unvisited link */
 
 </style>
